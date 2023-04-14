@@ -12,7 +12,7 @@ int IR_M_data;
 int IR_R_data;
 
 unsigned long t_prev = 0;
-const unsigned long t_delay = 1000;
+const unsigned long t_delay = 3000;
 
 int speed_A = 255; // 모터A의 속도
 int speed_B = 255; // 모터B의 속도
@@ -48,13 +48,13 @@ void loop() {
   Serial.print("Distance: ");
   Serial.println(distance);
 
-  if (distance < 15) {
+  if (distance < 10) {
     Serial.println("정지");
     stop();
     delay(100);
     unsigned long t_now = millis();
     if(t_now - t_prev >= t_delay) {
-     int f_now =  t_now / 1000; 
+     int f_now =  t_now / 3000; 
      if (f_now % 1 == 0){
         rotation(speed_A, speed_B);
         delay(2000);
@@ -66,7 +66,7 @@ void loop() {
       // Serial.println(t_now);
     }
   }
-  else if (distance >= 15) {
+  else if (distance >= 10) {
     // Serial.println("직진");
     forward(speed_A, speed_B);
   }
@@ -138,7 +138,7 @@ void stop() {
 
 void rotation(int speed_A, int speed_B){
   analogWrite(motor_A1, LOW);
-  analogWrite(motor_A2, speed_A);
-  analogWrite(motor_B1, speed_B);
+  analogWrite(motor_A2, speed_A*0.9);
+  analogWrite(motor_B1, LOW);
   analogWrite(motor_B2, LOW);
 }
